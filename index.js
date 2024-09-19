@@ -50,6 +50,15 @@ console.log(sum(5, 7));
 // Call the function with different arguments and display the results in the console.
 
 // Your code here
+function concatStrings(s1, s2){
+    if (typeof s1 === 'string' && typeof s2 === 'string'){
+        return s1 + s2;
+    }
+    return "Invalid Arguments!";
+}
+
+console.log(concatStrings("Hello", "World"));
+console.log(concatStrings("Hello", 5));
 
 // Challenge 1.3
 // Here is an example of if-else statements in JSON. It logs to console depending on whether certain conditions are fulfilled.
@@ -65,6 +74,14 @@ if (number > 0) {
 // Write a program that checks if a string is empty, has only one character, or has multiple characters, and displays the result.
 
 // Your code here
+let str = "Hello";
+if (str.length === 0){
+    console.log("The string is empty.");
+} else if (str.length === 1){
+    console.log("The string has only one character.");
+} else {
+    console.log("The string has multiple characters.");
+}
 
 // Challenge 1.4
 // Here we have an example of a for loop that prints its incrementation to the console from 1 to 10.
@@ -75,7 +92,11 @@ for (let i = 1; i <= 10; i++) {
 // Write a program that prints only the even numbers from 1 to 20 using a for loop.
 
 // Your code here
-
+for(let i = 1; i <= 20; i++){
+    if (i % 2 === 0){
+        console.log(i);
+    }
+}
 // Challenge 1.5
 // Here we have an example of a while loop that prints its incrementation to the console from 1 to 10.
 let i = 1;
@@ -87,9 +108,14 @@ while (i <= 10) {
 // Write a program that prints the even numbers from 20 to 1 using a while loop.
 
 //Your code here
-
+let j = 20;
+while(j>=1){
+    console.log(j);
+    j-=2;
+}
 // Challenge 2.1
 // Here we have a function that takes in an array and adds the sum of all the numbers in the array as an output.
+console.log("challenge 2.1");
 let numbers = [1, 2, 3, 4, 5];
 numbers.forEach(num => console.log(num));
 
@@ -105,7 +131,11 @@ console.log(arraySum(numbers));
 // Hint: use .join()
 
 // Your code here
-
+let foods = ["sushi", "burgers", "pizza", "tacos", "pasta"];
+function printFoods(arr){
+    return arr.join(", ");
+}
+console.log(printFoods(foods));
 // Challenge 2.2
 // Here we define a Person object with various properties like name, age, and job.
 let person = {
@@ -124,7 +154,15 @@ printPerson(person);
 // Then, write a function that takes a car object and prints its properties.
 
 // Your code here
-
+let car = {
+    make: "Mazda",
+    model: "3",
+    year: 2019
+}
+function printCar(c){
+    console.log(`Make: ${c.make}, Model: ${c.model}, Year: ${c.year}`);
+}
+printCar(car);
 // Challenge 2.3
 // Here we have a function that manipulates an array of numbers that we previously defined in Challenge 2.1.
 function addItem(arr, item) {
@@ -142,11 +180,18 @@ console.log(updateJob({name: "Peter", age: 21, job: "Engineer"}, "Manager"));
 
 // Write a function that removes the last item from an array. 
 // Hint: use .pop() instead of .push()
-
+function removeLastItem(arr){
+    arr.pop();
+    return arr;
+}
 // Then, write a function that updates the year of a car object.
-
+function updateCar(c, cYear){
+    c.year = cYear;
+    return c;
+}
 // Your code here
-
+console.log(removeLastItem([1, 2, 3, 4]));
+console.log(updateCar(car, 2020));
 // Incorporating HTML with JS
 
 // For all following code, it will not be able to be run directly in the console. 
@@ -166,21 +211,22 @@ console.log(updateJob({name: "Peter", age: 21, job: "Engineer"}, "Manager"));
 // Here are some examples of selecting elements in the index.html file. 
 let myDiv = document.getElementById("myDiv");
 let myP = document.querySelector(".myP");
-let myH1 = document.querySelector("h1");
-console.log(myDiv, myP, myH1);
+console.log(myDiv, myP);
 
 // Write JavaScript code to select the elements in the HTML snippet marked "Challenge 3.1 | Your Turn" and log them to the console.
 // Make sure to use both getElementById() and querySelector() to get in practice with both!
-
 // Your code here
+let myDiv2 = document.getElementById("anotherDiv");
+let myP2 = document.querySelector(".anotherP");
+console.log(myDiv2, myP2);
 
 // Challenge 3.2
 // Here is an example of changing the content of an element we selected in Challenge 3.1:
 myDiv.textContent = "Hello, World!";
 
 // Write a program that changes the content of an element you selected in Challenge 3.1.
-
 // Your code here
+myDiv2.textContent = "Goodbye, World!";
 
 // See the section marked "Challenge 3.2 | Example" in index.html for an example of how we can use JS manipulation of selected elements to make a button.
 // Add a button to the HTML file and write a program that changes the content of a div when the button is clicked.
@@ -196,6 +242,9 @@ document.body.appendChild(newElement);
 // Write code that creates a new element and adds it to the DOM.
 
 // Your code here
+let newElem2 = document.createElement("b")
+newElem2.textContent = "This is the bold text added to the DOM.";
+document.body.appendChild(newElem2);
 
 // See the section marked "Challenge 3.3.2 | Example" in index.html for a more advanced example of how we can use this ability to create and add elements to create a dynamic grocery list.
 
@@ -299,13 +348,25 @@ function displayData(data) {
 // Hint: use the helpful tip from the example in Challenge 5.2.1 to reference the JSON output quickly.
 
 function fetchYourData() {
-    // Your code here
+    fetch('https://api.github.com/users')
+    .then(response => response.json())
+    .then(data => {console.log(data);
+          displayYourData(data);})
+    .catch(error => console.error('Error:', error));
 }
 
 function displayYourData(data) {
     const dataDisplay = document.getElementById('yourDataDisplay');
     dataDisplay.innerHTML = ''; 
     // Your code here
+    data.forEach(user => {
+        const userElement = document.createElement('div');
+        userElement.classList.add('user');
+        userElement.innerHTML = `<p>Login: ${user.login} | URL: ${user.url}</p>`;
+        dataDisplay.appendChild(userElement);
+    });
+  
+
 }
 
 // Challenge 6

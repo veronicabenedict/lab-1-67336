@@ -58,7 +58,9 @@
         <button id="changeAnotherContentBtn">Change The Content Below</button>
         <div id="anotherContentDiv"><h4>Your Original Content</h4></div>
         <script>
-            // Your code here
+            document.getElementById("changeAnotherContentBtn").addEventListener("click", function() {
+                document.getElementById("anotherContentDiv").textContent = "Your Content Changed!";
+            });
         </script>
 
         <hr>
@@ -123,11 +125,14 @@
         <h1 style="color: blue; text-align: center;">Challenge 4.1 | Your Turn</h1>
         <!-- Challenge 4.1 | Your Turn -->
          <!-- Here's a resource for a potential hint: https://rb.gy/2vl4fs -->
-        <div id="colorDiv" style="width:100px; height:100px; background-color:lightblue;"></div>
-        <script>
-            // Your code here
-        </script>
+        <div id="colorDiv" style="width:100px; height:100px; background-color:rgb(59, 112, 129);"></div>
         <button id="colorBtn">Change Color</button>
+        <script>
+            document.getElementById("colorBtn").addEventListener("click", function() {
+                document.querySelector("#colorDiv").style.backgroundColor = "rgb(129, 59, 59)";
+            });
+        </script>
+        
 
         <hr>
     </section>
@@ -185,11 +190,26 @@
         <h4 id="yourResult">[Your Promise Results Here]</h4>
         <script>
             function yourAsyncFunction() {
-                // Your code here
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        let random = Math.random();
+                        if (random > 0.5) {
+                            resolve('Operation was successful | Promise resolved!');
+                        } else {
+                            reject('Operation failed | Promise rejected!');
+                        }
+                    })
+                })
             }
 
             document.getElementById('handleYourAsyncButton').addEventListener('click', () => {
-                // Your Code here
+                asyncFunction()
+                    .then(message => {
+                        document.getElementById('yourResult').innerText = message;
+                    })
+                    .catch(error => {
+                        document.getElementById('yourResult').innerText = error;
+                    });
             });
         </script>
 
